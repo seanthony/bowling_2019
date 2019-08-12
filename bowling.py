@@ -9,8 +9,8 @@ def score_game(frames):
 
 def play_game():
     frames = []
-
-    for i in range(10):
+    
+    for i in range(9):
         print('Frame', i + 1)
         first_attempt = int(input('  >>> first throw? '))
         if first_attempt < 10:
@@ -18,6 +18,20 @@ def play_game():
             frames.append([first_attempt, second_attempt])
         else:
             frames.append([first_attempt])
+
+    print('Frame 10')
+    first_attempt = int(input('  >>> first throw? '))
+    if first_attempt < 10:
+        second_attempt = int(input('  >>> second throw? '))
+        if first_attempt + second_attempt == 10:
+            third_attempt = int(input('  >>> third throw? '))
+            frames.append([first_attempt, second_attempt, third_attempt])
+        else:
+            frames.append([first_attempt, second_attempt])
+    else:
+        second_attempt = int(input('  >>> second throw? '))
+        third_attempt = int(input('  >>> third throw? '))
+        frames.append([first_attempt, second_attempt, third_attempt])
 
     print(frames)
     score = score_game(frames)
