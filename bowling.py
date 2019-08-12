@@ -1,8 +1,18 @@
 def score_game(frames):
-    # not accurate bowling scoring!
     score = 0
-    for frame in frames:
+    for i in range(len(frames) - 1):
+        frame = frames[i]
         score += sum(frame)
+        if len(frame) == 1 and sum(frame) == 10:
+            if (len(frames[i + 1]) > 1):
+                score += sum(frames[i + 1][:2])
+            else:
+                score += frames[i + 1][0] + frames[i + 2][0]
+        elif sum(frame) == 10:
+            score += frames[i + 1][0]
+
+    # tenth frame
+    score += sum(frames[-1])
 
     return score
 
