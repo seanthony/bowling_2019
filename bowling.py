@@ -1,25 +1,26 @@
 def score_game(frames):
-    score = 0
+    scores = []
     for i in range(len(frames) - 1):
         frame = frames[i]
-        score += sum(frame)
+        score = sum(frame)
         if len(frame) == 1 and sum(frame) == 10:
             if (len(frames[i + 1]) > 1):
                 score += sum(frames[i + 1][:2])
-            else:
+            elif len(frames) > (i + 2):
                 score += frames[i + 1][0] + frames[i + 2][0]
         elif sum(frame) == 10:
             score += frames[i + 1][0]
+        scores.append(score)
 
-    # tenth frame
-    score += sum(frames[-1])
+    scores.append(sum(frames[-1]))
 
-    return score
+    print(scores)
+    return sum(scores)
 
 
 def play_game():
     frames = []
-    
+
     for i in range(9):
         print('Frame', i + 1)
         first_attempt = int(input('  >>> first throw? '))
@@ -28,6 +29,7 @@ def play_game():
             frames.append([first_attempt, second_attempt])
         else:
             frames.append([first_attempt])
+        print("score:", score_game(frames))
 
     print('Frame 10')
     first_attempt = int(input('  >>> first throw? '))
