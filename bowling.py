@@ -8,46 +8,45 @@ def score_game(frames):
                 score += sum(frames[i + 1][:2])
             elif len(frames) > (i + 2):
                 score += frames[i + 1][0] + frames[i + 2][0]
+            else:
+                score += sum(frames[i + 1])
         elif sum(frame) == 10:
             score += frames[i + 1][0]
         scores.append(score)
 
+    # last frame
     scores.append(sum(frames[-1]))
 
     print(scores)
     return sum(scores)
 
 
+def bowl(n):
+    print('Frame', n)
+    frame = []
+    throw = int(input('  >>> first throw? '))
+    frame.append(throw)
+    if sum(frame) < 10 or n == 10:
+        throw = int(input('  >>> second throw? '))
+        frame.append(throw)
+    if sum(frame) >= 10 and n == 10:
+        throw = int(input('  >>> third throw? '))
+        frame.append(throw)
+
+    return frame
+
+
 def play_game():
     frames = []
-
-    for i in range(9):
-        print('Frame', i + 1)
-        first_attempt = int(input('  >>> first throw? '))
-        if first_attempt < 10:
-            second_attempt = int(input('  >>> second throw? '))
-            frames.append([first_attempt, second_attempt])
-        else:
-            frames.append([first_attempt])
-        print("score:", score_game(frames))
-
-    print('Frame 10')
-    first_attempt = int(input('  >>> first throw? '))
-    if first_attempt < 10:
-        second_attempt = int(input('  >>> second throw? '))
-        if first_attempt + second_attempt == 10:
-            third_attempt = int(input('  >>> third throw? '))
-            frames.append([first_attempt, second_attempt, third_attempt])
-        else:
-            frames.append([first_attempt, second_attempt])
-    else:
-        second_attempt = int(input('  >>> second throw? '))
-        third_attempt = int(input('  >>> third throw? '))
-        frames.append([first_attempt, second_attempt, third_attempt])
+    for i in range(10):
+        frame = bowl(i + 1)
+        frames.append(frame)
+        # score = score_game(frames)
+        # print("Score:", score)
 
     print(frames)
     score = score_game(frames)
-    print("Score:", score)
+    print("Final Score:", score)
 
 
 if __name__ == "__main__":
