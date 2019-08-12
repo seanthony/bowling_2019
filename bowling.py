@@ -21,16 +21,43 @@ def score_game(frames):
     return sum(scores)
 
 
+def get_throw(attempt, n, frame):
+    while True:
+        throw = input(f'  >>> throw #{attempt}? ')
+        if not throw.isdigit():
+            # non digit entries
+            print('err - non numeric')
+            continue
+        throw_value = int(throw)
+        if throw_value > 10 or throw_value < 0:
+            # invalid throw values
+            print('err - throw value out of bounds')
+            continue
+        if n < 10 and throw_value + sum(frame) > 10:
+            # all non tenth frames going over ten
+            print('err - value too high for frame')
+            continue
+        if n == 10 and len(frame) == 1 and frame[0] < 10 and frame[0] + throw_value > 10:
+            # tenth frame, not strike on first ball
+            print('err - second throw too high for frame')
+            continue
+        if n == 10 and len(frame) == 2 and frame[0] == 10 and frame[1] < 10 and throw_value + frame[1] > 10:
+            # tenth frame, strike on first ball, non-strike on second, final throw
+            print('err - third throw too high for frame')
+            continue
+        return throw_value
+
+
 def bowl(n):
     print('Frame', n)
     frame = []
-    throw = int(input('  >>> first throw? '))
+    throw = get_throw(1, n, frame)
     frame.append(throw)
     if sum(frame) < 10 or n == 10:
-        throw = int(input('  >>> second throw? '))
+        throw = get_throw(2, n, frame)
         frame.append(throw)
     if sum(frame) >= 10 and n == 10:
-        throw = int(input('  >>> third throw? '))
+        throw = get_throw(3, n, frame)
         frame.append(throw)
 
     return frame
@@ -41,8 +68,6 @@ def play_game():
     for i in range(10):
         frame = bowl(i + 1)
         frames.append(frame)
-        # score = score_game(frames)
-        # print("Score:", score)
 
     print(frames)
     score = score_game(frames)
